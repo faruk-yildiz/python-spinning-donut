@@ -1,11 +1,20 @@
 import os
 from math import sin, cos
 import random
+from optparse import OptionParser
+
+#Get User Input
+def get_user_input():
+    optParser=OptionParser()
+    optParser.add_option("-r","--rgb",dest="is_rgb",help="rgb 1,single color 0")
+    return optParser.parse_args()
 
 def main():
     colorList =["30","31","32","33","34","35","36","37"]
     randomColor=random.choice(colorList)
 
+    (user_input,arguments)=get_user_input()
+    
     a=0
     b=0
 
@@ -63,12 +72,18 @@ def main():
 
         # prints
         os.system(clear)
-        for index, char in enumerate(screen):
-            if index % width == 0:
-                print()
-            else:
-                print(char, end='')
-
+        if user_input.is_rgb == "1":
+            for index, char in enumerate(screen):
+                if index % width == 0:
+                    print()
+                else:
+                    print("\033[{colorCode}m{char}\033[0m".format(char=char,colorCode=random.choice(colorList)), end='')
+        else:
+            for index, char in enumerate(screen):
+                if index % width == 0:
+                    print()
+                else:
+                    print("\033[{colorCode}m{char}\033[0m".format(char=char,colorCode=randomColor), end='')
         # increments
         a+=0.04
         b+=0.02
